@@ -1,16 +1,11 @@
 # 20251118-GH300
 
-## 專案概述 (Project Overview)
+## 專案概述
 
 這個專案包含兩個 TODO 網站應用程式的實作範例，分別使用不同的技術堆疊：
 
 1. **.NET 10 MVC TODO 應用程式** - 使用 ASP.NET Core MVC 和記憶體內資料庫
 2. **Python TODO 應用程式** - 使用 Python 和記憶體內資料庫
-
-This repository contains two TODO web application implementations using different technology stacks:
-
-1. **.NET 10 MVC TODO Application** - Built with ASP.NET Core MVC and in-memory database
-2. **Python TODO Application** - Built with Python and in-memory database
 
 ---
 
