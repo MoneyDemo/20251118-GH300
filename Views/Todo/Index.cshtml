@@ -1,0 +1,79 @@
+@model IEnumerable<TodoApp.Models.TodoItem>
+
+@{
+    ViewData["Title"] = "Todo List";
+}
+
+<div class="container">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="display-4">📝 Todo List</h1>
+        </div>
+        <div class="col text-end">
+            <a asp-action="Create" class="btn btn-primary btn-lg">
+                <i class="bi bi-plus-circle"></i> New Todo
+            </a>
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info" role="alert">
+            <h4 class="alert-heading">No todos yet!</h4>
+            <p>Start by creating your first todo item.</p>
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            @foreach (var item in Model)
+                            {
+                                <li class="list-group-item d-flex justify-content-between align-items-center @(item.IsCompleted ? "bg-light" : "")">
+                                    <div class="flex-grow-1">
+                                        <h5 class="mb-1 @(item.IsCompleted ? "text-decoration-line-through text-muted" : "")">
+                                            @item.Title
+                                        </h5>
+                                        <small class="text-muted">
+                                            Created: @item.CreatedDate.ToString("yyyy-MM-dd HH:mm")
+                                        </small>
+                                        @if (item.IsCompleted)
+                                        {
+                                            <span class="badge bg-success ms-2">Completed</span>
+                                        }
+                                    </div>
+                                    <div class="btn-group" role="group">
+                                        <form asp-action="ToggleComplete" asp-route-id="@item.Id" method="post" class="d-inline">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn @(item.IsCompleted ? "btn-outline-warning" : "btn-outline-success") btn-sm">
+                                                @(item.IsCompleted ? "Undo" : "Complete")
+                                            </button>
+                                        </form>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-outline-primary btn-sm ms-2">Edit</a>
+                                        <form asp-action="Delete" asp-route-id="@item.Id" method="post" class="d-inline ms-2" onsubmit="return confirm('Are you sure you want to delete this todo?');">
+                                            @Html.AntiForgeryToken()
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                                        </form>
+                                    </div>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col">
+                <p class="text-muted">
+                    Total: @Model.Count() | 
+                    Completed: @Model.Count(t => t.IsCompleted) | 
+                    Pending: @Model.Count(t => !t.IsCompleted)
+                </p>
+            </div>
+        </div>
+    }
+</div>
